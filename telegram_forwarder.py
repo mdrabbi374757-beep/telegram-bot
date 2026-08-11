@@ -6,11 +6,12 @@ from telethon.sessions import StringSession
 # Environment Variables থেকে কনফিগারেশন নেয়া
 API_ID = int(os.environ.get("API_ID", 0))
 API_HASH = os.environ.get("API_HASH", "")
-SESSION_STRING = os.environ.get("SESSION_STRING", "")
 SOURCE_CHAT = int(os.environ.get("SOURCE_CHAT", 0))
 TARGET_CHAT = int(os.environ.get("TARGET_CHAT", 0))
 
-# StringSession ব্যবহার করে Telethon ক্লায়েন্ট তৈরি
+# সেশন স্ট্রিং সরাসরি কোডে দেওয়া হলো
+SESSION_STRING = "1BJWap1wBu30X8F9Hm1fvVu0XA9rUCLARRzUvjpWpioiym9dueziJ0koDBXFVBhejc7skVS3LqUUg6AWhi2QxDKfq_DMON2ELV0ZMsXp3EQ5dYu34zFlRJQoJA1kqaLEIDrKRQbTmnXpgYzKdZA6ommwJr8kxYPuc5IVKiSkr06RxF8KsdyLdb9mhrrbyhsxwOuUzYfAjDLXcsKT2ngVVxD77JPUHkppJ7FQ6tFS0v2B31q7E7hQWmNr33yTpi4FXs4b84fZgKWRhsnfQ11y1jVum3LGaESVoEeLL3EoW2KzszNuHRUuvw9MMmKF0oWLCSaG1EnzwttL6Owij_b9FmLFCmyH9z0="
+
 client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
 @client.on(events.NewMessage(chats=SOURCE_CHAT))
@@ -29,4 +30,3 @@ async def main():
 
 if __name__ == '__main__':
     asyncio.run(main())
-
