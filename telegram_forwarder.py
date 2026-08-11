@@ -1,16 +1,17 @@
 import os
 import asyncio
 from telethon import TelegramClient, events
+from telethon.sessions import StringSession
 
-# Environment Variables থেকে API কনফিগারেশন নেওয়া
+# Environment Variables থেকে কনফিগারেশন নেয়া
 API_ID = int(os.environ.get("API_ID", 0))
 API_HASH = os.environ.get("API_HASH", "")
 SESSION_STRING = os.environ.get("SESSION_STRING", "")
 SOURCE_CHAT = int(os.environ.get("SOURCE_CHAT", 0))
 TARGET_CHAT = int(os.environ.get("TARGET_CHAT", 0))
 
-# Telethon ক্লায়েন্ট তৈরি
-client = TelegramClient('forwarder_session', API_ID, API_HASH)
+# StringSession ব্যবহার করে Telethon ক্লায়েন্ট তৈরি
+client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
 @client.on(events.NewMessage(chats=SOURCE_CHAT))
 async def handler(event):
@@ -28,3 +29,4 @@ async def main():
 
 if __name__ == '__main__':
     asyncio.run(main())
+
