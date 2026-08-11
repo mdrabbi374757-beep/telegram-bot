@@ -3,14 +3,27 @@ import asyncio
 from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 
-# Environment Variables থেকে কনফিগারেশন নেয়া
+# Environment variables
 API_ID = int(os.environ.get("API_ID", 0))
 API_HASH = os.environ.get("API_HASH", "")
-SESSION_STRING = os.environ.get("SESSION_STRING", "")
 SOURCE_CHAT = int(os.environ.get("SOURCE_CHAT", 0))
 TARGET_CHAT = int(os.environ.get("TARGET_CHAT", 0))
 
-# StringSession ব্যবহার করে Telethon ক্লায়েন্ট তৈরি
+# Clean up session string from mobile space/newline errors
+raw_session = os.environ.get("SESSION_STRING", "").strip().replace("\n", "").replace("\r", "").replace(" ", "")
+
+if raw_session:
+    # If 1 character extra (length % 4 == 1), trim the last character
+    if len(raw_session) % 4 == 1:
+        raw_session = raw_session[:-1]
+    
+    # Auto-add missing padding '=' if needed
+    missing_padding = len(raw_session) % 4
+    if missing_padding:
+        raw_session += "=" * (4 - missing_padding)
+
+SESSION_STRING = raw_session
+
 client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
 @client.on(events.NewMessage(chats=SOURCE_CHAT))
