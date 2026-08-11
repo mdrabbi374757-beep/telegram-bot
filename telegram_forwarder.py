@@ -9,20 +9,30 @@ API_HASH = os.environ.get("API_HASH", "")
 SOURCE_CHAT = int(os.environ.get("SOURCE_CHAT", 0))
 TARGET_CHAT = int(os.environ.get("TARGET_CHAT", 0))
 
-# Clean up session string from mobile space/newline errors
+# Get raw session string
 raw_session = os.environ.get("SESSION_STRING", "").strip().replace("\n", "").replace("\r", "").replace(" ", "")
 
 if raw_session:
-    # If 1 character extra (length % 4 == 1), trim the last character
-    if len(raw_session) % 4 == 1:
-        raw_session = raw_session[:-1]
-    
-    # Auto-add missing padding '=' if needed
-    missing_padding = len(raw_session) % 4
-    if missing_padding:
-        raw_session += "=" * (4 - missing_padding)
+    # Telethon StringSession starts with '1' as version prefix
+    if raw_session.startswith("1"):
+        version = raw_session[0]
+        body = raw_session[1:]
+    else:
+        version = ""
+        body = raw_session
 
-SESSION_STRING = raw_session
+    # If mobile paste added 1 extra character to body, trim it
+    if len(body) % 4 == 1:
+        body = body[:-1]
+
+    # Auto-add missing '=' padding to body if needed
+    missing_padding = len(body) % 4
+    if missing_padding:
+        body += "=" * (4 - missing_padding)
+
+    SESSION_STRING = version + body
+else:
+    SESSION_STRING = ""
 
 client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
