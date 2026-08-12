@@ -5,7 +5,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 
-# Render Web Port Health Check
+# Web Health Check for Render
 class HealthCheck(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -28,10 +28,17 @@ API_HASH = os.environ.get("API_HASH", "")
 SOURCE_CHAT = int(os.environ.get("SOURCE_CHAT", 0))
 TARGET_CHAT = int(os.environ.get("TARGET_CHAT", 0))
 
-# Get Session String and automatically fix base64 padding
-raw_session = os.environ.get("SESSION_STRING", "").strip()
+raw_session = os.environ.get("SESSION_STRING", "").strip().strip("'").strip('"')
+
+# Base64 padding correction for Telethon StringSession
 if raw_session:
-    raw_session += '=' * (-len(raw_session) % 4)
+    if raw_session.startswith('1'):
+        payload = raw_session[1:]
+        missing_padding = (-len(payload)) % 4
+        raw_session = '1' + payload + ('=' * missing_padding)
+    else:
+        missing_padding = (-len(raw_session)) % 4
+        raw_session += ('=' * missing_padding)
 
 SESSION_STRING = raw_session
 
