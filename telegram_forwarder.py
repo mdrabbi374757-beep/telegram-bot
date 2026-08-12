@@ -9,9 +9,14 @@ from telethon.sessions import StringSession
 class HealthCheck(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
+        self.send_header('Content-type', 'text/html')
         self.end_headers()
         self.wfile.write(b"OK")
         
+    def do_HEAD(self):
+        self.send_response(200)
+        self.end_headers()
+
     def log_message(self, format, *args):
         return
 
@@ -28,7 +33,7 @@ API_HASH = os.environ.get("API_HASH", "")
 SOURCE_CHAT = int(os.environ.get("SOURCE_CHAT", 0))
 TARGET_CHAT = int(os.environ.get("TARGET_CHAT", 0))
 
-# Clean raw session string without adding forced padding
+# Clean raw session string
 SESSION_STRING = os.environ.get("SESSION_STRING", "").strip().strip("'").strip('"')
 
 client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
