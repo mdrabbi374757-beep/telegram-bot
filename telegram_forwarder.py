@@ -28,13 +28,10 @@ API_HASH = os.environ.get("API_HASH", "")
 SOURCE_CHAT = int(os.environ.get("SOURCE_CHAT", 0))
 TARGET_CHAT = int(os.environ.get("TARGET_CHAT", 0))
 
+# Get Session String and automatically fix base64 padding
 raw_session = os.environ.get("SESSION_STRING", "").strip()
-
-# Auto-fix Base64 padding if '=' was missing at the end
 if raw_session:
-    missing_padding = len(raw_session) % 4
-    if missing_padding:
-        raw_session += '=' * (4 - missing_padding)
+    raw_session += '=' * (-len(raw_session) % 4)
 
 SESSION_STRING = raw_session
 
