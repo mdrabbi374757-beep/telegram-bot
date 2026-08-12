@@ -22,12 +22,21 @@ def run_server():
 
 threading.Thread(target=run_server, daemon=True).start()
 
-# Telethon Bot Setup
+# Environment variables
 API_ID = int(os.environ.get("API_ID", 0))
 API_HASH = os.environ.get("API_HASH", "")
 SOURCE_CHAT = int(os.environ.get("SOURCE_CHAT", 0))
 TARGET_CHAT = int(os.environ.get("TARGET_CHAT", 0))
-SESSION_STRING = os.environ.get("SESSION_STRING", "").strip()
+
+raw_session = os.environ.get("SESSION_STRING", "").strip()
+
+# Auto-fix Base64 padding if '=' was missing at the end
+if raw_session:
+    missing_padding = len(raw_session) % 4
+    if missing_padding:
+        raw_session += '=' * (4 - missing_padding)
+
+SESSION_STRING = raw_session
 
 client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
