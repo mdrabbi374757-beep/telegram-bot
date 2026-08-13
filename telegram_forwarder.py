@@ -41,8 +41,21 @@ client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 @client.on(events.NewMessage(chats=SOURCE_CHAT))
 async def handler(event):
     try:
-        await client.send_message(TARGET_CHAT, event.message)
-        print("Forwarded a new message from the source chat")
+        # ১. শুধুমাত্র মেসেজের লেখা (Text) বের করা
+        text = event.raw_text or event.text
+        
+        # যদি কোনো টেক্সট না থাকে, তবে স্কিপ করবে
+        if not text:
+            return
+
+        # ২. TBM নামটি পরিবর্তন করে VIP AUTO বসানো
+        text = text.replace("TBM PRE-ENTRY ALERT", "VIP AUTO PRE-ENTRY ALERT")
+        text = text.replace("TBM PREMIUM SIGNAL", "VIP AUTO PREMIUM SIGNAL")
+        text = text.replace("TBM", "VIP AUTO")
+
+        # ৩. কোনো ছবি ছাড়া শুধুমাত্র লেখা ফরওয়ার্ড করা
+        await client.send_message(TARGET_CHAT, text)
+        print("Text signal forwarded successfully!")
     except Exception as e:
         print(f"Error forwarding message: {e}")
 
