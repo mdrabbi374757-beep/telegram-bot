@@ -39,8 +39,8 @@ async def handler(event):
         text = event.raw_text
         
         # এখানে ফন্ট সহ TBM গুলোকে টার্গেট করা হয়েছে
-        new_text = text.replace("𝐓𝐁𝐌", "VIP AUTO AI")
-        new_text = new_text.replace("TBM", "VIP AUTO AI") # সাধারণ ফন্টের জন্যও
+        new_text = text.replace("𝐓𝐁𝐌", "VIP AUTO ")
+        new_text = new_text.replace("TBM", "VIP AUTO ") # সাধারণ ফন্টের জন্যও
         
         # ছবি ছাড়া শুধু টেক্সট পাঠানো
         await client.send_message(TARGET_CHAT, new_text)
