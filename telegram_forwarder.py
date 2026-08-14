@@ -1,5 +1,4 @@
 import os
-import re
 import asyncio
 import threading
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -36,22 +35,16 @@ client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
 @client.on(events.NewMessage(chats=SOURCE_CHAT))
 async def handler(event):
-    try:
-        # মেসেজের ক্যাপশন বা টেক্সট নেওয়া
-        text = event.text or event.raw_text or ""
+    if event.raw_text:
+        text = event.raw_text
         
-        # কোনো লেখা না থাকলে স্কিপ করবে
-        if not text.strip():
-            return
-
-        # যেকোনো ধরনের TBM দেখলেই তা VIP AUTO AI দিয়ে বদলে দেবে
-        new_text = re.sub(r'TBM', 'VIP AUTO AI', text, flags=re.IGNORECASE)
-
-        # ছবি ছাড়া শুধু এডিট করা টেক্সট ফরওয়ার্ড করা
+        # এখানে ফন্ট সহ TBM গুলোকে টার্গেট করা হয়েছে
+        new_text = text.replace("𝐓𝐁𝐌", "VIP AUTO AI")
+        new_text = new_text.replace("TBM", "VIP AUTO AI") # সাধারণ ফন্টের জন্যও
+        
+        # ছবি ছাড়া শুধু টেক্সট পাঠানো
         await client.send_message(TARGET_CHAT, new_text)
-        print("Signal text successfully updated and forwarded!")
-    except Exception as e:
-        print(f"Error forwarding message: {e}")
+        print("Signal text updated and forwarded!")
 
 async def main():
     await client.start()
