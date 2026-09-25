@@ -1,27 +1,33 @@
-import os
 import asyncio
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import os
 import threading
-from http.server import HTTPServer, BaseHTTPRequestHandler
 from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 
+
 # Render Web Port Health Check
 class HealthCheck(BaseHTTPRequestHandler):
+
     def do_GET(self):
         self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+        self.send_header("Content-type", "text/html")
         self.end_headers()
         self.wfile.write(b"OK")
+
     def do_HEAD(self):
         self.send_response(200)
         self.end_headers()
+
     def log_message(self, format, *args):
         return
 
+
 def run_server():
     port = int(os.environ.get("PORT", 10000))
-    server = HTTPServer(('0.0.0.0', port), HealthCheck)
+    server = HTTPServer(("0.0.0.0", port), HealthCheck)
     server.serve_forever()
+
 
 threading.Thread(target=run_server, daemon=True).start()
 
@@ -29,26 +35,29 @@ API_ID = int(os.environ.get("API_ID", 0))
 API_HASH = os.environ.get("API_HASH", "")
 SOURCE_CHAT = int(os.environ.get("SOURCE_CHAT", 0))
 TARGET_CHAT = int(os.environ.get("TARGET_CHAT", 0))
-SESSION_STRING = os.environ.get("SESSION_STRING", "").strip().strip("'").strip('"')
+SESSION_STRING = os.environ.get("SESSION_STRING", "").strip().strip('"')
 
 client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
+
 
 @client.on(events.NewMessage(chats=SOURCE_CHAT))
 async def handler(event):
     if event.raw_text:
         text = event.raw_text
-        
-        # এখানে ফন্ট সহ TBM গুলোকে টার্গেট করা হয়েছে
-        new_text = text.replace("𝐓𝐁𝐌", "​𝐕𝐈𝐏 𝐀𝐈 ")
-        new_text = new_text.replace("TBM", "​𝐕𝐈𝐏 𝐀𝐈 ") # সাধারণ ফন্টের জন্যও
-        
-        # ছবি ছাড়া শুধু টেক্সট পাঠানো
+
+        # VIP AI ADVANCE PRO বা VIP AI এর জায়গায় HNR RABBI AI BOT পরিবর্তন
+        new_text = text.replace("VIP AI ADVANCE PRO", "HNR RABBI  AI BOT")
+        new_text = new_text.replace("VIP AI", "HNR RABBI  AI BOT")
+
+        # ফরওয়ার্ড করে টার্গেট চ্যানেলে পাঠানো
         await client.send_message(TARGET_CHAT, new_text)
-        print("Signal text updated and forwarded!")
+        print("Signal text updated with HNR RABBI AI BOT and forwarded!")
+
 
 async def main():
     await client.start()
     await client.run_until_disconnected()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     asyncio.run(main())
