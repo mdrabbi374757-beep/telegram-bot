@@ -45,8 +45,10 @@ async def handler(event):
     if event.raw_text:
         text = event.raw_text
 
-        # VIP AI ADVANCE PRO বা VIP AI এর জায়গায় HNR RABBI AI BOT পরিবর্তন
-        new_text = text.replace("VIP AI ADVANCE PRO", "HNR RABBI  AI BOT")
+        # TBM এবং VIP AI সম্পর্কিত সব লেখাকে HNR RABBI  AI BOT দিয়ে রিপ্লেস করা
+        new_text = text.replace("TBM ADVANCE PRO", "HNR RABBI  AI BOT")
+        new_text = new_text.replace("TBM", "HNR RABBI  AI BOT")
+        new_text = new_text.replace("VIP AI ADVANCE PRO", "HNR RABBI  AI BOT")
         new_text = new_text.replace("VIP AI", "HNR RABBI  AI BOT")
 
         # ফরওয়ার্ড করে টার্গেট চ্যানেলে পাঠানো
@@ -61,3 +63,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
