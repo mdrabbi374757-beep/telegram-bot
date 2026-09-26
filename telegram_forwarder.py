@@ -45,15 +45,15 @@ async def handler(event):
     if event.raw_text:
         text = event.raw_text
 
-        # TBM এবং VIP AI সম্পর্কিত সব লেখাকে HNR RABBI  AI BOT দিয়ে রিপ্লেস করা
-        new_text = text.replace("TBM ADVANCE PRO", "HNR RABBI  AI BOT")
-        new_text = new_text.replace("TBM", "HNR RABBI  AI BOT")
-        new_text = new_text.replace("VIP AI ADVANCE PRO", "HNR RABBI  AI BOT")
-        new_text = new_text.replace("VIP AI", "HNR RABBI  AI BOT")
+        # TBM এবং VIP AI স্টাইলের লেখাকে 𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓 দিয়ে রিপ্লেস করা
+        new_text = text.replace("TBM ADVANCE PRO", "𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓")
+        new_text = new_text.replace("TBM", "𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓")
+        new_text = new_text.replace("VIP AI ADVANCE PRO", "𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓")
+        new_text = new_text.replace("VIP AI", "𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓")
 
         # ফরওয়ার্ড করে টার্গেট চ্যানেলে পাঠানো
         await client.send_message(TARGET_CHAT, new_text)
-        print("Signal text updated with HNR RABBI AI BOT and forwarded!")
+        print("Signal text updated with 𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓 and forwarded!")
 
 
 async def main():
@@ -63,4 +63,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
