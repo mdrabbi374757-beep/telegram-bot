@@ -46,7 +46,7 @@ async def handler(event):
         text = event.raw_text
 
         # TBM এবং VIP AI স্টাইলের লেখাকে 𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓 দিয়ে রিপ্লেস করা
-        new_text = text.replace("TBM ADVANCE PRO", "𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓")
+        new_text = text.replace("𝗤𝗨𝗢𝗧𝗘𝗫 𝗕𝗢𝗧 𝗦𝗜𝗚𝗡𝗔𝗟", "𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓")
         new_text = new_text.replace("TBM", "𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓")
         new_text = new_text.replace("VIP AI ADVANCE PRO", "𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓")
         new_text = new_text.replace("VIP AI", "𝐇𝐍𝐑 𝐑𝐀𝐁𝐁𝐈 𝐀𝐈 𝐁𝐎𝐓")
